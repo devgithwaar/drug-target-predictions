@@ -14,7 +14,7 @@
 
 
 # References
-""" > citation("caret")
+""" > citation("caret") 
 
 在出版物中使用程序包时引用‘caret’:
 
