@@ -6,8 +6,11 @@
 # Original tutorial codes from PDF of "BioMedR: R/CRAN Package for generating various molecular representations for chemicals, proteins DNAs/RNAs and their interactions. (Authored by Minfeng Zhu, Jie Dong, Dongsheng Cao, Package version: Release 1. 2019-07-03 "
 
 # Annotations were added by Hui-Heng Lin.
-
-
+require(BioMedR)
+gpcr=read.table(system.file('vignettedata/GRCR.csv', package= 'BioMedR')
+protid=unique(gpcr[,1])
+protid=unique(gpcr[,2])
+protseq=BMgetProtSeqKEGG(protid, parallel=5)
 
 
 # Debugging and modifications of above codes by Hui-Heng Lin
