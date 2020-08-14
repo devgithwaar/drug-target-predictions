@@ -1,10 +1,16 @@
-# Predicting drug-target interactions via R package "BioMedR"
+# Purpose: Predicting drug-target interactions via R package "BioMedR"
+
 # Author: Hui-Heng Lin, PhD . On 14th Aug.2020
 
-install.packages() 
+
+# Original tutorial codes from PDF of "BioMedR: R/CRAN Package for generating various molecular representations for chemicals, proteins DNAs/RNAs and their interactions. (Authored by Minfeng Zhu, Jie Dong, Dongsheng Cao, Package version: Release 1. 2019-07-03 "
+
+# Annotations were added by Hui-Heng Lin.
 
 
 
+
+# Debugging and modifications of above codes by Hui-Heng Lin
 
 
 # References
