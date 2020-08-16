@@ -6,7 +6,7 @@
 # Original tutorial codes from PDF of "BioMedR: R/CRAN Package for generating various molecular representations for chemicals, proteins DNAs/RNAs and their interactions. ( BioMedR manual authored by Minfeng Zhu, Jie Dong, Dongsheng Cao, Package version: Release 1. 2019-07-03 "
 
 # Annotations were added by Hui-Heng Lin.
-require(BioMedR) # load library
+require(BioMedR) # load library. Notice that, package-/version- dependency issues may exist according to different users' computing environment
 gpcr=read.table(system.file('vignettedata/GRCR.csv', package= 'BioMedR') # load embedded dataset
 protid=unique(gpcr[,1]); drugid=unique(gpcr[,2]) # protein and drug ID assignments to variable
 protseq=BMgetProtSeqKEGG(protid, parallel=5) # retrieve protein seqeuence data from remote database, using IDs. Network connection is required
@@ -29,37 +29,34 @@ x0.prot=cbind(t(sapply(unlist(protseq), extrProtMoreauBroto)), t(sapply(unlist(p
 
 x0.drug=cbind(extrDrugGraphComplete(readMolFromSmi(textConnection(drugseq))), extrDrugPubChemComplete(readMolFromSmi(textConnection(drugseq)))) # executions failed. Functions had errors                
                 
-                
-
 x.prot=matrix(NA, nrow = nrow(gpcr), ncol=ncol(x0.prot)) 
 x.drug=matrix(NA, nrow = nrow(gpcr), ncol = ncol(x0.drug)) # creating matrices via specifying their row number and column numbers
 for(i in 1:nrow(gpcr)) x.prot[i,] = x0.prot[which(gpcr[,1][i] == protid),]
-for(i in 1:nrow(gpcr)) x.drug[i,]=x0.drug(gpcr[,2][i] == drugid)
-
+for(i in 1:nrow(gpcr)) x.drug[i,]=x0.drug(gpcr[,2][i] == drugid) # assign values to matrices
 
 y=as.factor(c(rep('1',nrow(gpcr)/2), rep('0', nrow(gpcr/2)))) # create label set
 
 x=getCPI(x.prot, x.drug, type='combine') # generate drug-target interaction descriptors (combined descriptor matrix) using getCPI(). 
-colnames(x) =paste('CCI', 1:dim(x)[2],sep='_')
+colnames(x) =paste('CCI', 1:dim(x)[2],sep='_') # fill the column name with numbers
 
-require(caret)
+require(caret) # load library. If not installed, should firstly install via command "install.packages("caret") ".  But note that, package-/version- dependent issues may exist. In my R environment, "rlang" and "vctrs" package version dependent issue happened. Hence extra procedures for installation or updating packs were required. 
 x=x[,-nearZeroVar(x)]
 
 # training set split
-set.seed(20180808)
-split_index=createDataPartition(y,p=0.75, list=F)
+set.seed(20180808) # set.seed for result reproduction/regeneration
+split_index=createDataPartition(y,p=0.75, list=F)  # createDataPartition ( ) function for splitting training and testing sets.  The parameter p's value indicate the percentage for training set. Here 75% were used for training set.
 
-train_x=x[split_index,]
-train_y=y[split_index]
-test_x=x[-split_index,]
-test_y=y[-split_index]
+train_x=x[split_index,] # training set split for feature set
+train_y=y[split_index] # training set split for label set
+test_x=x[-split_index,] # testing set split for feature set
+test_y=y[-split_index] # testing set split for label set
 
 
-require(randomForest)
-cv_result=rf.cv(train_x,train_y, cv.fold=5, type='classification', tree=500,mtry=30) # five-fold cross validation with random forest classifier
+require(randomForest) # load the library of randomforest
+cv_result=rf.cv(train_x,train_y, cv.fold=5, type='classification', tree=500, mtry=30) # five-fold cross validation with random forest classifier. Note that the correct function name should be 'rfcv( )' instead of rf.cv in the original code
 
 # train random forest classifier
-rf.fit=randomForest(x=train_x, y=train_y, ntree=500, mtry=30, importance=TRUE)
+rf.fit=randomForest(x=train_x, y=train_y, ntree=500, mtry=30, importance=TRUE) # 
 
 # predict on the training set (for demonstration purpose only) and plot ROC curve
 # predict on the test set (in fact the training set)
@@ -75,14 +72,8 @@ plotroc.(test_y, pre_res, col=pal[1], grid=T, print.auc=T, main='prediction')
 par(opar)
 
                 
-                
-                
-                
-                
-                
-
-# Debugging and modifications of above codes by Hui-Heng Lin
-
+       
+            
 
 # References
 """ > citation("caret") 
