@@ -6,18 +6,17 @@
 # Original tutorial codes from PDF of "BioMedR: R/CRAN Package for generating various molecular representations for chemicals, proteins DNAs/RNAs and their interactions. ( BioMedR manual authored by Minfeng Zhu, Jie Dong, Dongsheng Cao, Package version: Release 1. 2019-07-03 "
 
 # Annotations were added by Hui-Heng Lin.
-require(BioMedR)
-gpcr=read.table(system.file('vignettedata/GRCR.csv', package= 'BioMedR')
-protid=unique(gpcr[,1])
-protid=unique(gpcr[,2])
-protseq=BMgetProtSeqKEGG(protid, parallel=5) # information retrieval from remote database
+require(BioMedR) # load library
+gpcr=read.table(system.file('vignettedata/GRCR.csv', package= 'BioMedR') # load embedded dataset
+protid=unique(gpcr[,1]); drugid=unique(gpcr[,2]) # protein and drug ID assignments to variable
+protseq=BMgetProtSeqKEGG(protid, parallel=5) # retrieve protein seqeuence data from remote database, using IDs. Network connection is required
 
-drugseq=c() # a NULL
-for (id in 1:length(drugid)){drugseq[id]=BMgetDrugSmiKEGG(drugid[id])}
+drugseq=c() # create a NULL variable for storging SMILES data of drugs
+for (id in 1:length(drugid)){drugseq[id]=BMgetDrugSmiKEGG(drugid[id])} # remote retrieval of drug SMILES via drug IDs
 
 
 """
-Alternatively, below could be used if your network connection is not good
+Alternatively, below codes could be used if your network connection is not good
 
 protseq = readFASTA(system.file('vignettedata/GPCR_seq.fasta', package = 'BioMedR'))
 
@@ -26,14 +25,14 @@ drugseq = as.vector(read.table(system.file('vignettedata/GPCR_smi.txt', package 
 """                
 
 
-x0.prot=cbind(t(sapply(unlist(protseq), extrProtMoreauBroto)), t(sapply(unlist(protseq), extrProtCTDC)))
+x0.prot=cbind(t(sapply(unlist(protseq), extrProtMoreauBroto)), t(sapply(unlist(protseq), extrProtCTDC))) # combine two featuresets of protein sequences
 
 x0.drug=cbind(extrDrugGraphComplete(readMolFromSmi(textConnection(drugseq))), extrDrugPubChemComplete(readMolFromSmi(textConnection(drugseq)))) # executions failed. Functions had errors                
                 
                 
 
-x.prot=matrix(NA, nrow = nrow(gpcr), ncol=ncol(x0.prot))
-x.drug=matrix(NA, nrow = nrow(gpcr), ncol = ncol(x0.drug))
+x.prot=matrix(NA, nrow = nrow(gpcr), ncol=ncol(x0.prot)) 
+x.drug=matrix(NA, nrow = nrow(gpcr), ncol = ncol(x0.drug)) # creating matrices via specifying their row number and column numbers
 for(i in 1:nrow(gpcr)) x.prot[i,] = x0.prot[which(gpcr[,1][i] == protid),]
 for(i in 1:nrow(gpcr)) x.drug[i,]=x0.drug(gpcr[,2][i] == drugid)
 
