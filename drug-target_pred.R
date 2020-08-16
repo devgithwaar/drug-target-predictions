@@ -19,7 +19,7 @@ for (id in 1:length(drugid)){drugseq[id]=BMgetDrugSmiKEGG(drugid[id])}
 """
 Alternatively, below could be used if your network connection is not good
 
-proseq = readFASTA(system.file('vignettedata/GPCR_seq.fasta', package = 'BioMedR'))
+protseq = readFASTA(system.file('vignettedata/GPCR_seq.fasta', package = 'BioMedR'))
 
 drugseq = as.vector(read.table(system.file('vignettedata/GPCR_smi.txt', package = 'BioMedR'), col.names = 'SMILES'))
 
