@@ -28,7 +28,7 @@ drugseq = as.vector(read.table(system.file('vignettedata/GPCR_smi.txt', package 
 
 x0.prot=cbind(t(sapply(unlist(protseq), extrProtMoreauBroto)), t(sapply(unlist(protseq), extrProtCTDC)))
 
-x0.drug=cbind(extrDrugGraphComplete(readMolFromSmi(textConnection(drugseq))), extrDrugPubChemComplete(readMolFromSmi(textConnection(drugseq)))) # functions failed                
+x0.drug=cbind(extrDrugGraphComplete(readMolFromSmi(textConnection(drugseq))), extrDrugPubChemComplete(readMolFromSmi(textConnection(drugseq)))) # executions failed. Functions had errors                
                 
                 
 
