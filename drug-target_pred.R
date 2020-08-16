@@ -16,9 +16,20 @@ protseq=BMgetProtSeqKEGG(protid, parallel=5) # information retrieval from remote
                 
 """
 Alternatively, below could be used if your network connection is not good
+
+proseq=readFASTA(system.file('vignettedata/GPCR_seq.fasta', package = 'BioMedR'))
+drugseq=as.vector(read.table(system.file('vignettedata/GPCR_smi.txt', package = 'BioMedR'), col.names = 'SMILES'))
+
 """
                 
-                
+drugseq=c() # a NULL
+for (id in 1:length(drugid)){drugseq[id]=BMgetDrugSmiKEGG(drugid[id])}
+
+# alternatively, if ....
+
+
+
+
 # Debugging and modifications of above codes by Hui-Heng Lin
 
 
