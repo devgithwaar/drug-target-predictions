@@ -1,2 +1,2 @@
-# drug-target-predictions
-computational predictive analyses on drug-target interactions
+# Drug-Target predictions
+Computational predictive analyses on drug-target interactions
