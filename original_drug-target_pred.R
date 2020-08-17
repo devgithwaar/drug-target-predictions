@@ -6,7 +6,7 @@
 # Original tutorial codes from PDF of "BioMedR: R/CRAN Package for generating various molecular representations for chemicals, proteins DNAs/RNAs and their interactions. ( BioMedR manual authored by Minfeng Zhu, Jie Dong, Dongsheng Cao, Package version: Release 1. 2019-07-03 "
 
 # Annotations were added by Hui-Heng Lin after code testing.
-require(BioMedR) # load library. Notice that, package-/version- dependency issues may exist according to different users' computing environment
+require(BioMedR) # load library. Notice that, multiple package-/version- dependency issues may exist according to different users' computing environment. E.g., the rlang and GOSemSim packs.
 gpcr=read.table(system.file('vignettedata/GRCR.csv', package= 'BioMedR') # load embedded dataset
 protid=unique(gpcr[,1]); drugid=unique(gpcr[,2]) # protein and drug ID assignments to variable
 protseq=BMgetProtSeqKEGG(protid, parallel=5) # retrieve protein seqeuence data from remote database, using IDs. Network connection is required
